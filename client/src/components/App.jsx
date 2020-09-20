@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import test from '../../../test.json';
+import SubmitForm from './SubmitForm.jsx';
+import WeekPicker from './WeekPicker.jsx';
+
 
 const LeftCol = styled.div`
 height: 100%;
@@ -44,7 +47,7 @@ const GameHeader = styled.div`
   flex: left;
   position: relative
   padding: 1px;
-  width: auto;
+  width: 660px;
   // text-transform: uppercase;
 `;
 
@@ -86,6 +89,7 @@ const Details = styled.div`
   padding: 10px;
   border: 1px solid #cfd6db;
   //width: 60%;
+  width: 640px;
 `;
 
 const Container = styled.div`
@@ -95,7 +99,7 @@ const Container = styled.div`
 const PickDetails = styled(Details)`
 &&& {
   border: none;
-  height: 300px;
+  // height: 300px;
   width: 80%;
   margin-right: 5px;
 }
@@ -119,15 +123,46 @@ const Select = styled.button`
   float: right;
   padding: 5px;
   color: white;
-  background-color: red;
+  background-color: green;
 `;
+
+const Delete = styled(Select)`
+&&& {
+  background-color: red;
+  float: left;
+  margin-right: 10px;
+  padding: 0px 2px;
+}
+`;
+
+const PicksHeader = styled.h2`
+  padding: 20px;
+`;
+
+const PickWrapper = styled.div`
+width: 100%;
+float: left;
+padding: 5px;
+position: relative;
+`;
+
+const SelectedTeam = styled.div`
+width: 75%;
+display: flex;
+`;
+
+const WeekPicks = styled.div`
+  margin-bottom: 10px;
+`;
+
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       games: test.data,
-      selectedWeek: 1,
+      availableWeeks: [1,2,3,4,5,6,7,8,9,10,11,12],
+      selectedWeek: 2,
       selectedTeams: [],
       weeks: {
         1: {
@@ -181,7 +216,24 @@ class App extends React.Component {
       },
     };
     this.handlePick = this.handlePick.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.changeWeek = this.changeWeek.bind(this);
+    this.getGames = this.getGames.bind(this);
   }
+
+  componentDidMount() {
+    this.getGames();
+  }
+
+  getGames() {
+    axios.get(`/api/games`)
+    .then((response) => {
+      console.log(response);
+      this.setState({
+        games: response.data.data
+      })
+    });
+  };
 
   handlePick(team) {
     let oldPicks = this.state.selectedTeams;
@@ -193,12 +245,31 @@ class App extends React.Component {
     }
   }
 
+  handleDelete(removedPick) {
+    console.log(removedPick);
+    let newPicks = this.state.selectedTeams.filter(team => team !== removedPick);
+    this.setState({
+      selectedTeams: newPicks
+    })
+  }
+
+  changeWeek(event) {
+    console.log('week trying to change');
+    console.log(event.target.value);
+    this.setState({
+      selectedWeek: event.target.value
+    })
+  }
+
   render () {
     return (
       <div>
-        <h1>NFL Surivor Pool Assistant</h1>
+        <h1>Survivor Pool Assistant</h1>
         <LeftCol>
-        <h3>{`Week ${this.state.selectedWeek} Remaining Games`}</h3>
+        <h2>{`Week ${this.state.selectedWeek} Remaining Games`}</h2>
+        <p>Select a different week: </p>
+        <WeekPicker selectedWeek={this.state.selectedWeek} weeks={this.state.availableWeeks} changeWeek={this.changeWeek}></WeekPicker>
+        <p>{`Data last updated on ` + new Date()}</p>
           {
             this.state.games.map((game, i) => {
               let gameTime = game.commence_time.substring(0,10);
@@ -236,15 +307,21 @@ class App extends React.Component {
           }
         </LeftCol>
         <RightCol>
-          <h3>Selected Teams</h3>
+        <PicksHeader>Selected Teams</PicksHeader>
+        <br></br>
           <PickDetails>
-            <div>{`Week ` + this.state.selectedWeek + ` Picks`}</div>
+            <WeekPicks>{`Week ` + this.state.selectedWeek + ` Picks`}</WeekPicks>
             {this.state.selectedTeams.map((team) => {
               return (
-                <div>{team}</div>
+                <PickWrapper>
+                  <Delete id={team} onClick={() => this.handleDelete(team)}>x</Delete>
+                  <SelectedTeam>{team}</SelectedTeam>
+                </PickWrapper>
               )
             })}
           </PickDetails>
+          <br></br>
+          <SubmitForm selectedWeek={this.state.selectedWeek} picks={this.state.selectedTeams}></SubmitForm>
         </RightCol>
      </div>
     );
