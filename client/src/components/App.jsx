@@ -6,6 +6,10 @@ import test from '../../../test.json';
 import SubmitForm from './SubmitForm.jsx';
 import WeekPicker from './WeekPicker.jsx';
 
+const Page = styled.div`
+background-color: black;
+color: white;
+`;
 
 const LeftCol = styled.div`
 height: 100%;
@@ -174,42 +178,46 @@ class App extends React.Component {
           end: '2020-09-24'
         },
         3: {
+          start: '2020-09-24',
+          end: '2020-10-01'
+        },
+        4: {
           start: '2020-10-01',
           end: '2020-10-08'
         },
-        4: {
+        5: {
           start: '2020-10-08',
           end: '2020-10-15'
         },
-        5: {
+        6: {
           start: '2020-10-15',
           end: '2020-10-22'
         },
-        6: {
+        7: {
           start: '2020-10-22',
           end: '2020-10-29'
         },
-        7: {
+        8: {
           start: '2020-11-05',
           end: '2020-11-12'
         },
-        8: {
+        9: {
           start: '2020-11-12',
           end: '2020-11-19'
         },
-        9: {
+        10: {
           start: '2020-11-19',
           end: '2020-11-26'
         },
-        10: {
+        11: {
           start: '2020-11-26',
           end: '2020-12-03'
         },
-        11: {
+        12: {
           start: '2020-12-03',
           end: '2020-12-10'
         },
-        12: {
+        13: {
           start: '2020-12-10',
           end: '2020-12-17'
         }
