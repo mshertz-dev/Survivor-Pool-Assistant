@@ -171,80 +171,93 @@ class App extends React.Component {
       selectedTeams: [],
       weeks: {
         1: {
-          start: '2020-09-10',
-          end: '2020-09-17'
+          start: '2020-09-08',
+          end: '2020-09-15'
         },
         2: {
-          start: '2020-09-17',
-          end: '2020-09-24'
+          start: '2020-09-15',
+          end: '2020-09-22'
         },
         3: {
-          start: '2020-09-24',
-          end: '2020-10-01'
+          start: '2020-09-22',
+          end: '2020-09-29'
         },
         4: {
-          start: '2020-10-01',
-          end: '2020-10-08'
+          start: '2020-09-29',
+          end: '2020-10-06'
         },
         5: {
-          start: '2020-10-08',
-          end: '2020-10-15'
+          start: '2020-10-06',
+          end: '2020-10-13'
         },
         6: {
-          start: '2020-10-15',
-          end: '2020-10-22'
+          start: '2020-10-13',
+          end: '2020-10-20'
         },
         7: {
-          start: '2020-10-22',
-          end: '2020-10-29'
+          start: '2020-10-20',
+          end: '2020-10-27'
         },
         8: {
-          start: '2020-10-29',
-          end: '2020-11-05'
+          start: '2020-10-27',
+          end: '2020-11-03'
         },
         9: {
-          start: '2020-11-05',
-          end: '2020-11-12'
+          start: '2020-11-03',
+          end: '2020-11-10'
         },
         10: {
-          start: '2020-11-12',
-          end: '2020-11-19'
+          start: '2020-11-10',
+          end: '2020-11-17'
         },
         11: {
-          start: '2020-11-19',
-          end: '2020-11-26'
+          start: '2020-11-17',
+          end: '2020-11-24'
         },
         12: {
-          start: '2020-11-26',
-          end: '2020-12-03'
+          start: '2020-11-24',
+          end: '2020-12-01'
         },
         13: {
-          start: '2020-12-03',
-          end: '2020-12-10'
+          start: '2020-12-01',
+          end: '2020-12-08'
         },
         14: {
-          start: '2020-12-10',
-          end: '2020-12-17'
+          start: '2020-12-08',
+          end: '2020-12-13'
         }
       },
     };
+    this.setWeek = this.setWeek.bind(this);
+    this.getGames = this.getGames.bind(this);
     this.handlePick = this.handlePick.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.changeWeek = this.changeWeek.bind(this);
-    this.getGames = this.getGames.bind(this);
   }
 
   componentDidMount() {
+    this.setWeek();
     this.getGames();
   }
+
+  setWeek() {
+    let today = new Date().toISOString().split('T')[0];
+    for (const [week, range] of Object.entries(this.state.weeks)) {
+      if (today >= range.start && today < range.end) {
+        this.setState({
+          selectedWeek: week
+        });
+          console.log(`it's currently week ` + week);
+      }
+    };
+  };
 
   getGames() {
     axios.get(`/api/games`)
     .then((response) => {
-      console.log(response);
       this.setState({
         games: response.data.data
-      })
+      });
     });
   };
 
@@ -259,7 +272,6 @@ class App extends React.Component {
   }
 
   handleDelete(removedPick) {
-    console.log(removedPick);
     let newPicks = this.state.selectedTeams.filter(team => team !== removedPick);
     this.setState({
       selectedTeams: newPicks
@@ -267,8 +279,6 @@ class App extends React.Component {
   }
 
   changeWeek(event) {
-    console.log('week trying to change');
-    console.log(event.target.value);
     this.setState({
       selectedWeek: event.target.value
     })
@@ -288,7 +298,7 @@ class App extends React.Component {
               let gameTime = game.commence_time.substring(0,10);
               let weekStart = this.state.weeks[this.state.selectedWeek].start;
               let weekEnd = this.state.weeks[this.state.selectedWeek].end;
-              if (gameTime >= weekStart && gameTime < weekEnd) {
+              if (gameTime >= weekStart && gameTime <= weekEnd) {
                 return (
                   <Game>
                     <GameHeader>
