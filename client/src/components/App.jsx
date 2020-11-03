@@ -14,8 +14,8 @@ color: white;
 const LeftCol = styled.div`
 height: 100%;
 display: block;
-margin: 0 auto;
-width: 65%;
+margin-left: 70px;
+width: 50%;
 flex-direction: column;
 flex: 1;
 position: relative;
@@ -44,14 +44,14 @@ const Game = styled.div`
 const GameHeader = styled.div`
   display: block;
   height: auto;
-  background: #fff;
+  // background: #fff;
   border: 1px solid #cfd6db;
   // border-top-right-radius: 4px;
   // border-top-left-radius: 4px;
   flex: left;
   position: relative
   padding: 1px;
-  width: 660px;
+  width: 630px;
   // text-transform: uppercase;
 `;
 
@@ -93,7 +93,7 @@ const Details = styled.div`
   padding: 10px;
   border: 1px solid #cfd6db;
   //width: 60%;
-  width: 640px;
+  width: 610px;
 `;
 
 const Container = styled.div`
@@ -125,6 +125,7 @@ const Spread = styled.div`
 
 const Select = styled.button`
   float: right;
+  margin-right: -15px;
   padding: 5px;
   color: white;
   background-color: green;
@@ -166,7 +167,7 @@ class App extends React.Component {
     this.state = {
       games: test.data,
       availableWeeks: [1,2,3,4,5,6,7,8,9,10,11,12],
-      selectedWeek: 2,
+      selectedWeek: 9,
       selectedTeams: [],
       weeks: {
         1: {
@@ -198,26 +199,30 @@ class App extends React.Component {
           end: '2020-10-29'
         },
         8: {
+          start: '2020-10-29',
+          end: '2020-11-05'
+        },
+        9: {
           start: '2020-11-05',
           end: '2020-11-12'
         },
-        9: {
+        10: {
           start: '2020-11-12',
           end: '2020-11-19'
         },
-        10: {
+        11: {
           start: '2020-11-19',
           end: '2020-11-26'
         },
-        11: {
+        12: {
           start: '2020-11-26',
           end: '2020-12-03'
         },
-        12: {
+        13: {
           start: '2020-12-03',
           end: '2020-12-10'
         },
-        13: {
+        14: {
           start: '2020-12-10',
           end: '2020-12-17'
         }
@@ -272,7 +277,7 @@ class App extends React.Component {
   render () {
     return (
       <div>
-        <h1>Survivor Pool Assistant</h1>
+        <h1>NFL Survivor Assistant</h1>
         <LeftCol>
         <h2>{`Week ${this.state.selectedWeek} Remaining Games`}</h2>
         <p>Select a different week: </p>
