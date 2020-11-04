@@ -168,9 +168,10 @@ class App extends React.Component {
     super(props);
     this.state = {
       games: test.data,
-      availableWeeks: [1,2,3,4,5,6,7,8,9,10,11,12],
+      availableWeeks: [1,2,3,4,5,6,7,8,9,10,11,12,13,14],
       selectedWeek: 9,
       selectedTeams: [],
+      selectedOpponents: [],
       weeks: {
         1: {
           start: '2020-09-08',
@@ -265,24 +266,44 @@ class App extends React.Component {
 
   handlePick(team) {
     let oldPicks = this.state.selectedTeams;
+    let oldOpponents = this.state.selectedOpponents;
     if (oldPicks.indexOf(team) !== -1) {
       alert(`You cannot pick ${team} twice`);
+    } else if (oldOpponents.indexOf(team) !== -1) {
+      alert(`You cannot pick ${team}, you have already selected their opponent`);
     } else {
-      oldPicks.push(team);
-      this.setState({selectedTeams: oldPicks});
+      let opponent = null;
+      for (let i = 0; i < this.state.games.length; i++) {
+        let gameIndex = this.state.games[i].teams.indexOf(team);
+        if (gameIndex !== -1) {
+          let selectedGame = this.state.games[i].teams.slice();
+          oldPicks.push(selectedGame.splice(gameIndex, 1)[0]);
+          oldOpponents = oldOpponents.concat(selectedGame);
+          break;
+        }
+      }
+      this.setState({
+        selectedTeams: oldPicks,
+        selectedOpponents: oldOpponents
+      });
     }
   }
 
   handleDelete(removedPick) {
+    let indexToRemove = this.state.selectedTeams.indexOf(removedPick);
     let newPicks = this.state.selectedTeams.filter(team => team !== removedPick);
+    let newOpponents = this.state.selectedOpponents.slice();
+    newOpponents.splice(indexToRemove, 1);
     this.setState({
-      selectedTeams: newPicks
+      selectedTeams: newPicks,
+      selectedOpponents: newOpponents
     })
   }
 
   changeWeek(event) {
     this.setState({
-      selectedWeek: event.target.value
+      selectedWeek: event.target.value,
+      selectedTeams: []
     })
   }
 
@@ -309,7 +330,6 @@ class App extends React.Component {
                         <SpreadHeader>Spread</SpreadHeader>
                       </Container>
                       <GameNumber>{'Game ' + (i+1)}</GameNumber>
-                      {/* <Day>{new Date(game.commence_time).toString().substring(0, 15)}</Day> */}
                     </GameHeader>
                     <span></span>
                     <Details>
@@ -339,7 +359,7 @@ class App extends React.Component {
             {this.state.selectedTeams.map((team) => {
               return (
                 <PickWrapper>
-                  <Delete id={team} onClick={() => this.handleDelete(team)}>x</Delete>
+                  <Delete id={team} onClick={() => this.handleDelete(team)}>X</Delete>
                   <SelectedTeam>{team}</SelectedTeam>
                 </PickWrapper>
               )

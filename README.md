@@ -6,7 +6,7 @@ NFL Survivor Pool Assistant helps to aggregate and streamline everything you nee
 
 # Technical details
 
-This app is in-progress - it currently only texts one commissioner number, and the current week is hard-coded.  Be sure to utilize the test data (testdata.json) file when testing and making changes locally, as The Odds API has a monthly limit on get requests before it starts charging $$$.
+This app is in-progress - it currently only texts one commissioner number\.  Be sure to utilize the test data (testdata.json) file when testing and making changes locally, as The Odds API has a monthly limit on get requests before it starts charging $$$.
 
 Front end is built with React<br>Server is Express
 

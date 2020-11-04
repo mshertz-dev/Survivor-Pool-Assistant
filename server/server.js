@@ -28,11 +28,9 @@ app.get('/api/games', (req, res) => {
 
 app.post('/api/picks', (req, res) => {
   console.log(req.body);
-  // res.send('got your request');
   let textBody = `Text from ${req.body.picker}:
   Week ${req.body.week} Picks: ${req.body.picks.toString()}
   Custom Message: ${req.body.custom_message}`;
-  // res.send(textBody);
   client.messages
   .create({
      body: textBody,
