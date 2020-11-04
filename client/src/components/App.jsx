@@ -5,14 +5,16 @@ import styled from 'styled-components';
 import test from '../../../test.json';
 import SubmitForm from './SubmitForm.jsx';
 import WeekPicker from './WeekPicker.jsx';
+import HeroImage from './HeroImage.jsx';
 
 const Page = styled.div`
+height: 100%;
 background-color: black;
 color: white;
 `;
 
 const LeftCol = styled.div`
-height: 100%;
+height: 75%;
 display: block;
 margin-left: 70px;
 width: 50%;
@@ -287,7 +289,7 @@ class App extends React.Component {
   render () {
     return (
       <div>
-        <h1>NFL Survivor Assistant</h1>
+        <HeroImage></HeroImage>
         <LeftCol>
         <h2>{`Week ${this.state.selectedWeek} Remaining Games`}</h2>
         <p>Select a different week: </p>
@@ -330,7 +332,7 @@ class App extends React.Component {
           }
         </LeftCol>
         <RightCol>
-        <PicksHeader>Selected Teams</PicksHeader>
+        <h2>Selected Teams</h2>
         <br></br>
           <PickDetails>
             <WeekPicks>{`Week ` + this.state.selectedWeek + ` Picks`}</WeekPicks>

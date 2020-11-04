@@ -9,10 +9,10 @@ function WeekPicker(props) {
   return (
     <select defaultValue={props.selectedWeek} onChange={props.changeWeek}>
       {props.weeks.map((week) => {
-        return <option value={week}>{week}</option>
+        return <option value={week}>{week}</option>;
       })}
     </select>
-  )
+  );
 }
 
 export default WeekPicker;
