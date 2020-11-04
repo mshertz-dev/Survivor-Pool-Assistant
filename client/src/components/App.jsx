@@ -297,7 +297,7 @@ class App extends React.Component {
         <p>{`Data last updated on ` + new Date()}</p>
           {
             this.state.games.map((game, i) => {
-              let gameTime = game.commence_time.substring(0,10);
+              let gameTime = game.commence_time.split('T')[0];
               let weekStart = this.state.weeks[this.state.selectedWeek].start;
               let weekEnd = this.state.weeks[this.state.selectedWeek].end;
               if (gameTime >= weekStart && gameTime <= weekEnd) {
