@@ -46,15 +46,11 @@ const Game = styled.div`
 const GameHeader = styled.div`
   display: block;
   height: auto;
-  // background: #fff;
   border: 1px solid #cfd6db;
-  // border-top-right-radius: 4px;
-  // border-top-left-radius: 4px;
   flex: left;
   position: relative
   padding: 1px;
   width: 630px;
-  // text-transform: uppercase;
 `;
 
 const GameNumber = styled.div`
@@ -94,7 +90,6 @@ const Details = styled.div`
   float: left;
   padding: 10px;
   border: 1px solid #cfd6db;
-  //width: 60%;
   width: 610px;
 `;
 
@@ -105,7 +100,6 @@ const Container = styled.div`
 const PickDetails = styled(Details)`
 &&& {
   border: none;
-  // height: 300px;
   width: 80%;
   margin-right: 5px;
 }
@@ -243,6 +237,7 @@ class App extends React.Component {
     this.getGames();
   }
 
+  //on initial render, determine what week the user likely wants to be viewing
   setWeek() {
     let today = new Date().toISOString().split('T')[0];
     for (const [week, range] of Object.entries(this.state.weeks)) {
@@ -250,11 +245,11 @@ class App extends React.Component {
         this.setState({
           selectedWeek: week
         });
-          console.log(`it's currently week ` + week);
       }
     };
   };
 
+  //pulls latest data available
   getGames() {
     axios.get(`/api/games`)
     .then((response) => {
@@ -264,6 +259,7 @@ class App extends React.Component {
     });
   };
 
+  //on pick selection, determines whether the pick is viable based on previously selected picks
   handlePick(team) {
     let oldPicks = this.state.selectedTeams;
     let oldOpponents = this.state.selectedOpponents;
@@ -289,6 +285,7 @@ class App extends React.Component {
     }
   }
 
+  //removes a chosen team and allows their opponent to be selected
   handleDelete(removedPick) {
     let indexToRemove = this.state.selectedTeams.indexOf(removedPick);
     let newPicks = this.state.selectedTeams.filter(team => team !== removedPick);
@@ -300,6 +297,7 @@ class App extends React.Component {
     })
   }
 
+  //allows user to look ahead or behind of current week and clears previously selected teams
   changeWeek(event) {
     this.setState({
       selectedWeek: event.target.value,

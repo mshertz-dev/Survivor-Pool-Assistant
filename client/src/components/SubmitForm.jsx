@@ -52,10 +52,12 @@ class Submit extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  //updates text boxes as user enters keystrokes
   handleChange(event) {
     this.setState({[event.target.id]: event.target.value});
   }
 
+  //submits selected teams to twilio which will text the commissioner
   handleSubmit(event) {
     let pickSubmission = {
       week: this.props.selectedWeek,

@@ -12,10 +12,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(express.static((__dirname + '/../client/dist')));
 
-app.get('/api/hiyee', (req, res) => {
-  res.send('hiyee');
-});
-
+//pulls latest available data and passes it along to the App component
 app.get('/api/games', (req, res) => {
   axios.get(`https://api.the-odds-api.com/v3/odds/?sport=americanfootball_nfl&region=us&mkt=spreads&apiKey=${apiKey}&dateFormat=iso`)
   .then((picks) => {
@@ -26,8 +23,8 @@ app.get('/api/games', (req, res) => {
   });
 });
 
+//sends user's selected picks and any custom message to the commissioner
 app.post('/api/picks', (req, res) => {
-  console.log(req.body);
   let textBody = `Text from ${req.body.picker}:
   Week ${req.body.week} Picks: ${req.body.picks.toString()}
   Custom Message: ${req.body.custom_message}`;

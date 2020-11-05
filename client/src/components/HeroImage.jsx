@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
-// import img from '../../../field.jpg';
 
 const Image = styled.div`
   background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url(https://i.pinimg.com/originals/42/df/10/42df1015f53c10791c85844364c981bf.jpg);
